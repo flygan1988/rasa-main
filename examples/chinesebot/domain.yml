@@ -1,0 +1,143 @@
+version: "3.0"
+
+intents:
+  - greet
+  - goodbye
+#  - affirm
+#  - deny
+  - mood_great
+#  - mood_unhappy
+  - bot_challenge
+  - chitchat
+  - search_car
+  - ask_car_detail
+  - ask_car_attribute
+
+entities:
+  - object_type
+  - mention
+  - car
+  - color
+  - attribute
+#  - type
+#  - seat
+#  - price-range
+#  - power
+
+slots:
+  object_type:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: object_type
+  mention:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: mention
+  car:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: car
+  color:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: color
+  attribute:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: attribute
+  knowledge_base_last_object:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: custom
+  knowledge_base_last_object_type:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: custom
+  knowledge_base_listed_objects:
+    type: list
+    influence_conversation: false
+    mappings:
+      - type: custom
+#  type:
+#    type: text
+#    influence_conversation: false
+#    mappings:
+#      - type: from_entity
+#        entity: type
+#  seat:
+#    type: text
+#    influence_conversation: false
+#    mappings:
+#      - type: from_entity
+#        entity: seat
+#  price-range:
+#    type: text
+#    influence_conversation: false
+#    mappings:
+#      - type: from_entity
+#        entity: price-range
+#  power:
+#    type: text
+#    influence_conversation: false
+#    mappings:
+#      - type: from_entity
+#        entity: power
+
+actions:
+- action_search_car
+- action_ask_car_detail
+- action_ask_car_attribute
+
+responses:
+  utter_greet:
+  - text: "哈喽！今天心情怎么样？"
+#    buttons:
+#    - title: "great"
+#      payload: "/mood_great"
+#    - title: "super sad"
+#      payload: "/mood_unhappy"
+
+#  utter_cheer_up:
+#  - text: "让你开心下:"
+#    image: "https://i.imgur.com/nGF1K8f.jpg"
+#
+#  utter_did_that_help:
+#  - text: "帮助到你了吗？"
+
+  utter_happy:
+  - text: "不错，继续保持"
+
+  utter_goodbye:
+  - text: "再见"
+
+  utter_iamabot:
+  - text: "我是机器人，RASA版本的"
+
+  utter_chitchat/ask_name:
+  - image: "https://i.imgur.com/zTvA58i.jpeg"
+    text: 你好，我的名字是小明。
+  - text: 我是FQA机器人
+
+  utter_chitchat/ask_weather:
+  - text: 今天天气晴朗，万里无云。
+    image: "https://i.imgur.com/vwv7aHN.png"
+  - text: 我不知道这一周的天气，不过今天看着天气晴朗
+
+  utter_welcome:
+  - text: "您好，我是选车助手小A，请问您想看什么车？"
+
+session_config:
+  session_expiration_time: 10  # value in minutes
+  carry_over_slots_to_new_session: true

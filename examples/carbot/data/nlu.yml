@@ -1,0 +1,294 @@
+version: "3.0"
+nlu:
+- intent: greet
+  examples: |
+    - 你好
+    - 你好呀
+    - 哈喽
+    - hello
+    - 早上好
+    - 晚上好
+    - 早啊
+    - 中午好
+    - 好啊，兄弟
+    - 你好，哥们
+    - 早上好啊
+    - 晚上好呀
+    - 下午好呀
+
+- intent: goodbye
+  examples: |
+    - 再见
+    - 拜拜
+    - 下次见
+    - 一会见
+    - 88
+    - 晚点见
+    - 待会儿见
+    - 祝你有个美好的一天
+    - 附近见
+    - bye
+    - 明天见
+
+- intent: stop
+  examples: |
+    - 打住
+    - 停止
+    - 屁用没有
+    - 别问了，没用
+    - 我想你没帮助到我
+    - 一点没用
+    - 这不是我想要的
+    - 一定帮助没有
+    - 不想回答
+    - 没有帮助到我
+    - 没有我想要的
+    - 我觉得你没帮助到我
+    - 不想继续了
+    - 放弃
+    - 回退
+    - 什么玩意
+    - 停止输入
+    - 跳出
+    - 傻逼
+
+- intent: affirm
+  examples: |
+    - 是的
+    - 正确
+    - 继续
+    - 加油
+    - 我们继续干
+    - 好的
+    - 好的，请继续
+    - 肯定
+    - 对的
+    - 那是对的
+    - 好
+    - 好的好的
+    - 我喜欢这样
+    - 是
+    - 继续走
+    - 你继续
+    - 是这样的
+    - 嗯嗯
+    - 嗯
+
+- intent: deny
+  examples: |
+    - no
+    - 不行
+    - 不
+    - 不想，谢谢
+    - 不想继续了
+    - 不想了
+    - 还有别的事吗
+    - 不可能
+    - 不同意
+    - 不想
+
+- intent: inform
+  examples: |
+    - [家用](usage)
+    - [商用](usage)
+    - [越野](usage)
+    - 选择[家用](usage)
+    - 选择[商用](usage)
+    - 选择[越野](usage)
+    - 买来[家用](usage)的
+    - 买来[越野](usage)
+    - 买来[商用](usage)
+    - [商用](usage)较多
+
+- intent: one_desire_car
+  examples: |
+    - 看看[朗逸](car)
+    - 看看[途观](car)
+    - 看看[捷达](car)
+    - 看看[凌度](car)
+    - 看看[途昂](car)
+    - 看看[桑塔纳](car)
+    - 看看[帕萨特](car)
+    - [朗逸](car)
+    - [途观](car)
+    - [捷达](car)
+    - [凌度](car)
+    - [途昂](car)
+    - [桑塔纳](car)
+    - [帕萨特](car)
+    - 我喜欢[朗逸](car)
+    - 喜欢[途观](car)
+    - 只看[帕萨特](car)
+    - 只看[捷达](car)
+    - 只看[凌度](car)
+    - 我就看看[桑塔纳](car)
+
+- intent: multi_desire_car
+  examples: |
+    - 看看[朗逸](car)和[帕萨特](car)
+    - 看看[途观](car)和[途昂](car)
+    - 看看[捷达](car)和[凌度](car)
+    - 看看[凌度](car)和[桑塔纳](car)
+    - 看看[途昂](car)和[帕萨特](car)
+    - 看看[桑塔纳](car)和[捷达](car)
+    - 看看[帕萨特](car)和[途观](car)
+    - [朗逸](car)和[帕萨特](car)
+    - [途观](car)和[途昂](car)
+    - [捷达](car)和[帕萨特](car)
+    - [凌度](car)和[朗逸](car)
+    - [途昂](car)和[朗逸](car)
+    - [桑塔纳](car)和[凌度](car)
+    - [帕萨特](car)和[途昂](car)
+    - 我喜欢[朗逸](car)，[途观](car)，[帕萨特](car)
+    - 喜欢[途观](car)，[途昂](car)和[帕萨特](car)
+    - 看[帕萨特](car)，[凌度](car)
+    - 看[捷达](car)和[桑塔纳](car)
+    - 看[凌度](car)和[桑塔纳](car)
+    - 我就看看[桑塔纳](car)，[凌度](car)和[帕萨特](car)
+
+- intent: no_desire_car
+  examples: |
+    - 我就随便看看
+    - 没有特定车型
+    - 随便
+    - 都看看
+    - 我也不知道
+    - 什么车子都行
+    - 没有想法
+    - 暂时没有
+    - 先了解下
+    - 我想看看[SUV](category)
+    - 有没有[SUV](category)看看
+    - 看看[轿车](category)
+    - 我想了解下[轿车](category)
+    - 有没有[200000](price)左右的车
+    - 看看[150000](price)的车
+    - 看看[二十万](price)的车
+    - 看看[家用](usage)车
+    - 我想看看[商用](usage)车
+
+- intent: bot_challenge
+  examples: |
+    - 你是机器人吗？
+    - 你是真人？
+    - 我在和机器人对话吗？
+    - 我在和真人对话？
+    - 你到底是人是鬼？
+    - 机器人？
+    - 你是真人还是机器人？
+    - 感觉你像是机器人
+    - 感觉你不是真人
+
+- intent: chitchat/ask_name
+  examples: |
+    - 我叫什么？
+    - 你叫什么名字？
+    - 你名字是？
+    - 我可以知道你名字吗？
+    - 别人怎么叫你？
+    - 你有名字吗？
+    - 你爹妈怎么叫你的？
+    - 你怎么称呼？
+    - 别人怎么称呼您呢？
+    - 您有名字吗？
+    - 您的称呼是什么？
+    - 你名字呢？
+    - 怎么叫你？
+    - 怎么称呼？
+    - 如何称呼？
+    - 方便知道你的名字吗？
+    - 方便叫你啥？
+    - 叫你啥？
+    - 啥名字？
+    - 啥称呼？
+
+- intent: chitchat/ask_weather
+  examples: |
+    - 今天天气如何？
+    - 今天天气晴朗吗？
+    - 方便帮我查询下今天的天气吗？
+    - 我喜欢晴天
+    - 上海天气咋样？
+    - 今天天气冷不冷？
+    - 查天气情况
+    - 今天下雨不
+    - 天气怎么样？
+    - 天气好不好
+    - 天气预报
+    - 气候咋样
+    - 气候良好不
+    - 天气质量如何
+
+- intent: search_car
+  examples: |
+    - 展示一些[车子]{"entity": "object_type", "value": "car"}看看
+    - 我看看[车]{"entity": "object_type", "value": "car"}，有啥推荐的？
+    - 你有那些[车]{"entity": "object_type", "value": "car"}？
+    - 给我展示下你知道的[车]{"entity": "object_type", "value": "car"}
+    - 有什么[车子]{"entity": "object_type", "value": "car"}让我看看
+    - 列举几款[车]{"entity": "object_type", "value": "car"}看看
+    - 你有哪些[车]{"entity": "object_type", "value": "car"}
+    - 有哪些[车子]{"entity": "object_type", "value": "car"}看看
+    - 我来看看[车子]{"entity": "object_type", "value": "car"}
+    - 来给我推荐几款[车]{"entity": "object_type", "value": "car"}
+
+- intent: ask_car_detail
+  examples: |
+    - 展示[途观]{"entity": "car"}
+    - 展示[朗逸]{"entity": "car"}
+    - 展示[帕萨特]{"entity": "car"}
+    - 展示[凌度]{"entity": "car"}
+    - 展示[捷达]{"entity": "car"}
+    - 展示[桑塔纳]{"entity": "car"}
+    - [捷达]{"entity": "car"}的参数配置
+    - [途观]{"entity": "car"}的参数配置
+    - [途昂]{"entity": "car"}的参数配置
+    - [帕萨特]{"entity": "car"}的参数配置
+    - [桑塔纳]{"entity": "car"}的参数配置
+    - [凌度]{"entity": "car"}的参数配置
+    - [朗逸]{"entity": "car"}的参数配置
+    - [第一个]{"entity": "mention", "value": "1"}了解下？
+    - [第二个]{"entity": "mention", "value": "2"}了解下？
+    - [第三辆]{"entity": "mention", "value": "3"}车看看？
+    - 看看[第四辆]{"entity": "mention", "value": "4"}车
+    - 看看[第五辆]{"entity": "mention", "value": "5"}车
+    - 展示下[第二辆]{"entity": "mention", "value": "2"}车
+    - 看看[第三个]{"entity": "mention", "value": "3"}什么配置
+    - 看看[第四个]{"entity": "mention", "value": "4"}什么配置
+    - 看看[第五个]{"entity": "mention", "value": "5"}什么配置
+    - [最后一个]{"entity": "mention", "value": "LAST"}是什么配置？
+    - [最后一个]{"entity": "mention", "value": "LAST"}了解下？
+    - [最后一个]{"entity": "mention", "value": "LAST"}看看
+
+- intent: ask_car_attribute
+  examples: |
+    - [途观]{"entity": "car"}有[白色]{"entity": "color"}的不？
+    - [途昂]{"entity": "car"}有[黑色]{"entity": "color"}的不？
+    - [朗逸]{"entity": "car"}有[红色]{"entity": "color"}的不？
+    - 展示[朗逸]{"entity": "car"}的[动力]{"entity": "attribute", "value":"power"}
+    - [帕萨特]{"entity": "car"}是[几座]{"entity": "attribute", "value":"seat"}
+    - 看下[捷达]{"entity": "car"}的[价格]{"entity": "attribute", "value":"price"}
+    - [第一个]{"entity": "mention", "value": "1"}[价位]{"entity": "attribute", "value":"price"}和[动力]{"entity": "attribute", "value":"power"}分别是多少？
+    - [第一辆]{"entity": "mention", "value": "1"}车[价位]{"entity": "attribute", "value":"price"}多少，[颜色]{"entity": "attribute", "value":"color"}有哪些？
+    - [第二辆]{"entity": "mention", "value": "2"}车是什么[类型]{"entity": "attribute", "value":"category"}的车？
+    - [第二个]{"entity": "mention", "value": "2"}是什么[类型]{"entity": "attribute", "value":"category"}的车？
+    - [第三辆]{"entity": "mention", "value": "3"}车是什么[类型]{"entity": "attribute", "value":"category"}的车？
+    - [第三个]{"entity": "mention", "value": "3"}是什么[类型]{"entity": "attribute", "value":"category"}的车？
+    - [第四辆]{"entity": "mention", "value": "4"}车是什么[类型]{"entity": "attribute", "value":"category"}的车？
+    - [第四个]{"entity": "mention", "value": "4"}是什么[类型]{"entity": "attribute", "value":"category"}的车？
+    - [第五辆]{"entity": "mention", "value": "5"}车是什么[类型]{"entity": "attribute", "value":"category"}的车？
+    - [第五个]{"entity": "mention", "value": "5"}是什么[类型]{"entity": "attribute", "value":"category"}的车？
+    - [第二辆]{"entity": "mention", "value": "2"}车是[几座]{"entity": "attribute", "value":"seat"}的车？
+    - 看看[第三个]{"entity": "mention", "value": "3"}有哪些[颜色]{"entity": "attribute", "value":"color"}
+    - [最后一个]{"entity": "mention", "value": "LAST"}发动机[动力]{"entity": "attribute", "value":"power"}咋样？
+    - [最后一个]{"entity": "mention", "value": "LAST"}有哪些[颜色]{"entity": "attribute", "value":"color"}？
+    - [最后一个]{"entity": "mention", "value": "LAST"}有几个[座位]{"entity": "attribute", "value":"seat"}？
+    - [它]{"entity": "mention"}的[价格]{"entity": "attribute", "value":"price"}如何
+    - [他]{"entity": "mention"}的[价格]{"entity": "attribute", "value":"price"}区间
+    - 有哪些[颜色]{"entity": "attribute", "value":"color"}
+    - 这辆车有几个[座位]{"entity": "attribute", "value":"seat"}
+    - [途昂]{"entity": "car"}的[动力]{"entity": "attribute", "value":"power"}如何
+    - [桑塔纳]{"entity": "car"}的[动力]{"entity": "attribute", "value":"power"}如何
+    - [凌度]{"entity": "car"}的[动力]{"entity": "attribute", "value":"power"}如何
+    - [帕萨特]{"entity": "car"}的[动力]{"entity": "attribute", "value":"power"}怎样
+    - [途昂]{"entity": "car"}有哪几种[颜色]{"entity": "attribute", "value":"color"}

@@ -1,0 +1,183 @@
+version: "3.0"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - stop
+  - no_desire_car
+  - bot_challenge
+  - chitchat
+  - search_car
+  - ask_car_detail
+  - ask_car_attribute
+  - one_desire_car
+  - inform
+  - multi_desire_car
+
+entities:
+  - object_type
+  - mention
+  - car
+  - color
+  - attribute
+  - category
+  - usage
+  - price
+
+slots:
+  object_type:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: object_type
+  mention:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: mention
+  car:
+    type: list
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: car
+  color:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: color
+  attribute:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: attribute
+  knowledge_base_last_object:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: custom
+  knowledge_base_last_object_type:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: custom
+  knowledge_base_listed_objects:
+    type: list
+    influence_conversation: false
+    mappings:
+      - type: custom
+
+  category:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: category
+      - type: from_text
+        conditions:
+          - active_loop: car_form
+            requested_slot: category
+
+  usage:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: usage
+      - type: from_text
+        conditions:
+          - active_loop: car_form
+            requested_slot: usage
+  price:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: price
+      - type: from_text
+        conditions:
+          - active_loop: car_form
+            requested_slot: price
+
+actions:
+- action_search_car
+- action_ask_car_detail
+- action_ask_car_attribute
+- validate_car_form
+- action_recommend_car
+- action_one_desire_car
+- action_recomm_car_by_price
+- action_multi_desire_car
+- action_recomm_from_multi_cars
+
+forms:
+  car_form:
+    ignored_intents:
+    - chitchat
+    required_slots:
+      - usage
+      - price
+      - category
+
+responses:
+  utter_ask_category:
+    - text: "请问您想看轿车还是SUV？"
+    - text: "您喜欢SUV还是轿车？"
+
+  utter_ask_usage:
+    - text: "请问您购车用途是？\n家用/商用/越野"
+
+  utter_ask_price:
+    - text: "请问您购车预算是多少？"
+    - text: "请问您准备买多少价位的车子？"
+    - text: "您准备了多少钱买车呢？"
+
+  utter_slots_values:
+    - text: "我将按照您的需求推荐车型：\n
+             -购车用途：{usage}\n
+             -购车预算：{price}\n
+             -车型：{category}"
+
+  utter_ask_continue:
+    - text: "您还想继续吗？"
+
+  utter_wrong_category:
+    - text: "车型输入错误，请选择：SUV|轿车"
+
+  utter_wrong_usage:
+    - text: "购车用途输入错误，请选择：家用|商用|越野"
+
+  utter_wrong_price:
+    - text: "购车预算请输入数字，如：120000"
+
+  utter_more_cars:
+    - text: "您还想了解下同价位其他车子吗？"
+
+  utter_goodbye:
+  - text: "再见"
+
+  utter_iamabot:
+  - text: "我是机器人，RASA版本的"
+
+  utter_chitchat/ask_name:
+  - image: "https://i.imgur.com/zTvA58i.jpeg"
+    text: 你好，我的名字是小明。
+  - text: 我是FQA机器人
+
+  utter_chitchat/ask_weather:
+  - text: 今天天气晴朗，万里无云。
+    image: "https://i.imgur.com/vwv7aHN.png"
+  - text: 我不知道这一周的天气，不过今天看着天气晴朗
+
+  utter_welcome:
+  - text: "您好，我是选车助手小A，请问您想看什么车？"
+
+session_config:
+  session_expiration_time: 10  # value in minutes
+  carry_over_slots_to_new_session: true

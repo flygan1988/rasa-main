@@ -1,0 +1,30 @@
+version: "3.0"
+
+stories:
+- story: test.csv 0 - both predictions should be the same in the test.csv stories
+  steps:
+  - user: |
+      What is your name?
+    intent: chitchat/ask_name
+  - action: utter_chitchat/ask_name
+
+- story: test.csv 1 - test.csv retrieving full utter action when predicted wrongly
+  steps:
+  - user: |
+      What is your name?
+    intent: chitchat/ask_name
+  - action: utter_chitchat/ask_weather
+
+- story: test.csv 2 - test.csv that fails correctly without retrieval intents
+  steps:
+  - user: |
+      What is your name?
+    intent: chitchat
+  - action: utter_goodbye
+
+- story: test.csv 3 - test.csv that works well without retrieval intents
+  steps:
+  - user: |
+      What is your name?
+    intent: chitchat
+  - action: utter_chitchat
