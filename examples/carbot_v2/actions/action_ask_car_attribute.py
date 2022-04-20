@@ -82,7 +82,7 @@ class ActionAskCarAttribute(Action):
         model_name = tracker.get_slot("model_name")
         print(model_name)
 
-        object = get_object(tracker, self.knowledge_base.ordinal_mention_mapping, "model",self.use_last_object_mention)
+        object = get_object(tracker, self.knowledge_base.ordinal_mention_mapping, "model", self.use_last_object_mention)
         logger.info("object = %s", object)
         if object is None:
             dispatcher.utter_message(text="抱歉，没有获取到具体车型")

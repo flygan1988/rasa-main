@@ -31,5 +31,4 @@ class ValidateModelForm(FormValidationAction):
         # last_model = tracker.get_slot(SLOT_LAST_MODEL)
         # if last_model is not None:
         #     return {"model_name": last_model["model_name"]}
-        print(value)
         return {"model_name": value}

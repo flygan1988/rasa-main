@@ -42,17 +42,20 @@ class ActionRecommCarModel(Action):
     def name(self) -> Text:
         return "action_recommend_car_model"
 
-    def set_slots(self, tracker, object_type, keys):
+    def set_slots(self, tracker, object_type, last_model, keys):
         slots = [
             SlotSet(SLOT_OBJECT_TYPE, object_type),
             SlotSet(SLOT_MENTION, None),
-            SlotSet(SLOT_LAST_OBJECT_TYPE, object_type)
+            SlotSet(object_type, None),
+            SlotSet(SLOT_LAST_OBJECT_TYPE, object_type),
+            SlotSet(SLOT_LAST_MODEL, last_model)
         ]
         object_attributes = [attr for attr in keys]
         return slots + reset_attribute_slots(tracker, object_attributes)
 
     async def utter_objects(
         self,
+        tracker: Tracker,
         dispatcher: CollectingDispatcher,
         object_type: Text,
         objects: List[Dict[Text, Any]],
@@ -132,6 +135,7 @@ class ActionRecommCarModel(Action):
         if object_type is None:
             object_type = "car"
             tracker.add_slots([SlotSet(SLOT_OBJECT_TYPE, object_type)])
+        last_model = None
         series_list = tracker.get_slot(object_type)
         logger.info("series_list = %s", series_list)
         if series_list is None or len(series_list) > 1:
@@ -141,7 +145,7 @@ class ActionRecommCarModel(Action):
         car_models = await utils.call_potential_coroutine(self.knowledge_base.get_objects_by_series_name(series_name))
         if car_models is None or len(car_models) == 0:
             dispatcher.utter_message(text="抱歉，没有获取到车型数据")
-            return self.set_slots(tracker, object_type, ONE_DESIRE_CAR_SLOTS.keys())
+            return self.set_slots(tracker, object_type, last_model, ONE_DESIRE_CAR_SLOTS.keys())
         ##get one_desire_car_form slots value
         for slot in ONE_DESIRE_CAR_SLOTS:
             ONE_DESIRE_CAR_SLOTS[slot] = tracker.get_slot(slot)
@@ -161,19 +165,22 @@ class ActionRecommCarModel(Action):
         if model_level != "无":
             car_models.sort(key=lambda model: model['price'])
             if model_level == "高":
+                last_model = car_models[-1]
                 await utils.call_potential_coroutine(
-                    self.utter_objects(dispatcher, object_type, car_models[-1:])
+                    self.utter_objects(tracker, dispatcher, object_type, car_models[-1:])
                 )
             elif model_level == "中":
                 index = len(car_models) // 2
+                last_model = car_models[index]
                 await utils.call_potential_coroutine(
-                    self.utter_objects(dispatcher, object_type, car_models[index:index+1])
+                    self.utter_objects(tracker, dispatcher, object_type, car_models[index:index+1])
                 )
             else:
+                last_model = car_models[0]
                 await utils.call_potential_coroutine(
-                    self.utter_objects(dispatcher, object_type, car_models[0:1])
+                    self.utter_objects(tracker, dispatcher, object_type, car_models[0:1])
                 )
-            return self.set_slots(tracker, object_type, ONE_DESIRE_CAR_SLOTS.keys())
+            return self.set_slots(tracker, object_type, last_model, ONE_DESIRE_CAR_SLOTS.keys())
 
         ##filter by closed price
         price = ONE_DESIRE_CAR_SLOTS['price']
@@ -182,24 +189,28 @@ class ActionRecommCarModel(Action):
         engine_power_kw = ONE_DESIRE_CAR_SLOTS['engine_power_kw']
         car_models.sort(key=lambda model: model['engine_power_kw'])
         if len(car_models) < 3:
+            last_model = car_models[0] if len(car_models) == 1 else None
             await utils.call_potential_coroutine(
-                self.utter_objects(dispatcher, object_type, car_models)
+                self.utter_objects(tracker, dispatcher, object_type, car_models)
             )
-            return self.set_slots(tracker, object_type, ONE_DESIRE_CAR_SLOTS.keys())
+            return self.set_slots(tracker, object_type, last_model, ONE_DESIRE_CAR_SLOTS.keys())
         if engine_power_kw == "大":
+            last_model = car_models[-1]
             await utils.call_potential_coroutine(
-                self.utter_objects(dispatcher, object_type, car_models[-1:])
+                self.utter_objects(tracker, dispatcher, object_type, car_models[-1:])
             )
         elif engine_power_kw == "小":
+            last_model = car_models[0]
             await utils.call_potential_coroutine(
-                self.utter_objects(dispatcher, object_type, car_models[0:1])
+                self.utter_objects(tracker, dispatcher, object_type, car_models[0:1])
             )
         else:
+            last_model = car_models[1]
             await utils.call_potential_coroutine(
-                self.utter_objects(dispatcher, object_type, car_models[1:2])
+                self.utter_objects(tracker, dispatcher, object_type, car_models[1:2])
             )
 
-        return self.set_slots(tracker, object_type, ONE_DESIRE_CAR_SLOTS.keys())
+        return self.set_slots(tracker, object_type, last_model, ONE_DESIRE_CAR_SLOTS.keys())
 
     async def _query_objects_multi_deire_car(
         self, dispatcher: CollectingDispatcher, tracker: Tracker
@@ -219,6 +230,7 @@ class ActionRecommCarModel(Action):
         if object_type is None:
             object_type = "car"
             tracker.add_slots([SlotSet(SLOT_OBJECT_TYPE, object_type)])
+        last_model = None
         series_list = tracker.get_slot(object_type)
         logger.info("series_list = %s", series_list)
         if series_list is None:
@@ -229,7 +241,7 @@ class ActionRecommCarModel(Action):
             car_models.extend(await utils.call_potential_coroutine(self.knowledge_base.get_objects_by_series_name(series_name)))
         if car_models is None or len(car_models) == 0:
             dispatcher.utter_message(text="抱歉，没有获取到车型数据")
-            return self.set_slots(tracker, object_type, MULTI_DESIRE_CAR_SLOTS.keys())
+            return self.set_slots(tracker, object_type, last_model, MULTI_DESIRE_CAR_SLOTS.keys())
         ##get multi_desire_car_form slots value
         for slot in MULTI_DESIRE_CAR_SLOTS:
             MULTI_DESIRE_CAR_SLOTS[slot] = tracker.get_slot(slot)
@@ -256,24 +268,28 @@ class ActionRecommCarModel(Action):
         engine_power_kw = MULTI_DESIRE_CAR_SLOTS['engine_power_kw']
         car_models.sort(key=lambda model: model['engine_power_kw'])
         if len(car_models) < 3:
+            last_model = car_models[0] if len(car_models) == 1 else None
             await utils.call_potential_coroutine(
-                self.utter_objects(dispatcher, object_type, car_models)
+                self.utter_objects(tracker, dispatcher, object_type, car_models)
             )
-            return self.set_slots(tracker, object_type, MULTI_DESIRE_CAR_SLOTS.keys())
+            return self.set_slots(tracker, object_type, last_model, MULTI_DESIRE_CAR_SLOTS.keys())
         if engine_power_kw == "大":
+            last_model = car_models[-1]
             await utils.call_potential_coroutine(
-                self.utter_objects(dispatcher, object_type, car_models[-1:])
+                self.utter_objects(tracker, dispatcher, object_type, car_models[-1:])
             )
         elif engine_power_kw == "小":
+            last_model = car_models[0]
             await utils.call_potential_coroutine(
-                self.utter_objects(dispatcher, object_type, car_models[0:1])
+                self.utter_objects(tracker, dispatcher, object_type, car_models[0:1])
             )
         else:
+            last_model = car_models[1]
             await utils.call_potential_coroutine(
-                self.utter_objects(dispatcher, object_type, car_models[1:2])
+                self.utter_objects(tracker, dispatcher, object_type, car_models[1:2])
             )
 
-        return self.set_slots(tracker, object_type, MULTI_DESIRE_CAR_SLOTS.keys())
+        return self.set_slots(tracker, object_type, last_model, MULTI_DESIRE_CAR_SLOTS.keys())
 
     async def _query_objects_no_deire_car(
         self, dispatcher: CollectingDispatcher, tracker: Tracker
@@ -293,7 +309,7 @@ class ActionRecommCarModel(Action):
         if object_type is None:
             object_type = "car"
             tracker.add_slots([SlotSet(SLOT_OBJECT_TYPE, object_type)])
-
+        last_model = None
         ##get no_desire_car_form slots value
         for slot in NO_DESIRE_CAR_SLOTS:
             NO_DESIRE_CAR_SLOTS[slot] = tracker.get_slot(slot)
@@ -317,21 +333,25 @@ class ActionRecommCarModel(Action):
         engine_power_kw = NO_DESIRE_CAR_SLOTS['engine_power_kw']
         car_models.sort(key=lambda model: model['engine_power_kw'])
         if len(car_models) < 3:
+            last_model = car_models[0] if len(car_models) == 1 else None
             await utils.call_potential_coroutine(
-                self.utter_objects(dispatcher, object_type, car_models)
+                self.utter_objects(tracker, dispatcher, object_type, car_models)
             )
-            return self.set_slots(tracker, object_type, NO_DESIRE_CAR_SLOTS.keys())
+            return self.set_slots(tracker, object_type, last_model, NO_DESIRE_CAR_SLOTS.keys())
         if engine_power_kw == "大":
+            last_model = car_models[-1]
             await utils.call_potential_coroutine(
-                self.utter_objects(dispatcher, object_type, car_models[-1:])
+                self.utter_objects(tracker, dispatcher, object_type, car_models[-1:])
             )
         elif engine_power_kw == "小":
+            last_model = car_models[0]
             await utils.call_potential_coroutine(
-                self.utter_objects(dispatcher, object_type, car_models[0:1])
+                self.utter_objects(tracker, dispatcher, object_type, car_models[0:1])
             )
         else:
+            last_model = car_models[1]
             await utils.call_potential_coroutine(
-                self.utter_objects(dispatcher, object_type, car_models[1:2])
+                self.utter_objects(tracker, dispatcher, object_type, car_models[1:2])
             )
 
-        return self.set_slots(tracker, object_type, NO_DESIRE_CAR_SLOTS.keys())
+        return self.set_slots(tracker, object_type, last_model, NO_DESIRE_CAR_SLOTS.keys())
