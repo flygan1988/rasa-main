@@ -353,6 +353,7 @@ nlu:
     - [凌渡](car)[排量]{"entity": "attribute", "value":"liter"}多大
     - [途观](car)有多大的[排气量]{"entity": "attribute", "value":"liter"}
     - [桑塔纳](car)的[排量]{"entity": "attribute", "value":"liter"}有多大？
+    - [这辆车](mention)是多大[排量]{"entity": "attribute", "value":"liter"}
     - 有哪些[颜色]{"entity": "attribute", "value":"color"}
     - 这辆车有几个[座位]{"entity": "attribute", "value":"seat_number"}，[动力]{"entity": "attribute", "value":"engine_power_kw"}如何
     - [途昂]{"entity": "car"}的[动力]{"entity": "attribute", "value":"engine_power_kw"}如何
