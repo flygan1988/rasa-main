@@ -1,0 +1,13 @@
+version: "3.0"
+nlu:
+- regex: year
+  examples: |
+    - \d{2,4}[款,年]
+
+- regex: liter
+  examples: |
+    - [0-9]+([.]{0,1}[0-9]+){0,1}[t,l,T,L]{1}
+
+- regex: max_miles
+  examples: |
+    - [0-9]+(公里|千米|km|Km|kM|KM)

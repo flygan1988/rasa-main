@@ -4,23 +4,32 @@ language: zh
 pipeline:
   - name: "JiebaTokenizer"
     dictionary_path: D:\\pycharm_project\\rasa-main\\examples\\carbot_v2\\dictionary
-  - name: "LanguageModelFeaturizer"
-    model_name: bert
-    model_weights: bert-base-chinese
+  - name: "CountVectorsFeaturizer"
+    analyze: char_wb
+    min_ngram: 1
+    max_ngram: 5
+#    OOV_token: oov
+#    token_pattern: '(?u)\b\w+\b'
+#  - name: "LanguageModelFeaturizer"
+#    model_name: bert
+#    model_weights: bert-base-chinese
   - name: "DIETClassifier"
+    constrain_similarities: True
     entity_recognition: True
-    epochs: 150
+    epochs: 100
+  - name: "FallbackClassifier"
+    threshold: 0.6
   - name: "EntitySynonymMapper"
   - name: "ResponseSelector"
     epochs: 100
-    retrieval_intent: chitchat
-  - name: "ResponseSelector"
-    epochs: 100
     retrieval_intent: faq
+    constrain_similarities: True
+  - name: "RegexEntityExtractor"
+    use_word_boundaries: False
 
 policies:
   - name: TEDPolicy
-#    max_history: 5
-    epochs: 100
+    constrain_similarities: True
+    epochs: 50
   - name: AugmentedMemoizationPolicy
   - name: RulePolicy

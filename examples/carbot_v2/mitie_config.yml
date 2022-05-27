@@ -1,0 +1,30 @@
+recipe: default.v1
+language: zh
+
+pipeline:
+  - name: "MitieNLP"
+    model: "models/total_word_feature_extractor_zh.dat"
+  - name: "JiebaTokenizer"
+    dictionary_path: dictionary
+  - name: "MitieFeaturizer"
+    pooling: "mean"
+  - name: "DIETClassifier"
+    constrain_similarities: True
+    entity_recognition: True
+    epochs: 100
+  - name: "FallbackClassifier"
+    threshold: 0.6
+  - name: "EntitySynonymMapper"
+  - name: "ResponseSelector"
+    epochs: 100
+    retrieval_intent: faq
+    constrain_similarities: True
+  - name: "RegexEntityExtractor"
+    use_word_boundaries: False
+
+policies:
+  - name: TEDPolicy
+    epochs: 50
+    constrain_similarities: True
+  - name: AugmentedMemoizationPolicy
+  - name: RulePolicy

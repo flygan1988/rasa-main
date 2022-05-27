@@ -1,0 +1,296 @@
+version: "3.0"
+stories:
+- story: affirm car series
+  steps:
+    - intent: one_desire_car
+    - action: action_search
+    - intent: inform_series
+    - action: action_search
+    - intent: inform_model
+    - action: action_suggest_car
+
+- story: no affirm car series
+  steps:
+    - intent: one_desire_car
+    - action: action_search
+    - intent: inform_model
+    - action: action_suggest_car
+
+- story: version or favor is set
+  steps:
+    - intent: one_desire_car
+    - or:
+      - slot_was_set:
+          - model_name
+      - slot_was_set:
+          - favor
+    - action: action_suggest_car
+
+- story: ask car attribute with mention + affirm
+  steps:
+    - intent: ask_car_attribute
+    - or:
+      - slot_was_set:
+          - mention
+    - action: action_car_attribute
+    - or:
+      - intent: affirm
+      - intent: deny
+    - action: action_handle_whether_go_on
+
+- story: ask car attribute without inform_series
+  steps:
+    - intent: ask_car_attribute
+    - action: action_search
+    - intent: inform_model
+    - action: action_car_attribute
+    - or:
+        - intent: deny
+        - intent: affirm
+    - action: action_handle_whether_go_on
+#- story: ask car attribute without inform_series + deny
+#  steps:
+#    - intent: ask_car_attribute
+#    - action: action_search
+#    - intent: inform_model
+#    - action: action_car_attribute
+#    - intent: deny
+#    - action: utter_dealer_detail
+- story: ask car attribute with inform_series
+  steps:
+    - intent: ask_car_attribute
+    - action: action_search
+    - intent: inform_series
+    - action: action_search
+    - intent: inform_model
+    - action: action_car_attribute
+    - or:
+        - intent: deny
+        - intent: affirm
+    - action: action_handle_whether_go_on
+#- story: ask car attribute with inform_series + deny
+#  steps:
+#    - intent: ask_car_attribute
+#    - action: action_search
+#    - intent: inform_series
+#    - action: action_search
+#    - intent: inform_model
+#    - action: action_car_attribute
+#    - intent: deny
+#    - action: utter_dealer_detail
+
+#- story: no desire car
+#  steps:
+#    - intent: no_desire_car
+#    - action: action_request
+#- story: affirm
+#  steps:
+#    - intent: affirm
+#    - action: action_request
+#- story: deny
+#  steps:
+#    - intent: deny
+#    - action: action_request
+#- story: inform fuel type
+#  steps:
+#    - intent: inform_fuel_type
+#    - action: action_request
+#- story: inform series level
+#  steps:
+#    - intent: inform_series_level
+#    - action: action_request
+#- story: inform price
+#  steps:
+#    - intent: inform_price
+#    - action: action_request
+#- story: inform space
+#  steps:
+#    - intent: inform_space
+#    - action: action_request
+
+- story: no desire car 1
+  steps:
+    - intent: no_desire_car
+    - action: action_request
+    - or:
+        - intent: deny
+        - intent: inform_fuel_type
+    - action: action_request
+    - or:
+        - intent: deny
+        - intent: inform_series_level
+    - action: action_request
+    - or:
+        - intent: deny
+        - intent: inform_price
+    - action: action_request
+    - or:
+        - intent: deny
+        - intent: inform_space
+    - action: action_request
+    - or:
+        - intent: affirm
+        - intent: deny
+    - action: action_request
+- story: no desire car 2
+  steps:
+    - intent: no_desire_car
+    - action: action_request
+    - intent: affirm
+    - action: action_request
+- story: no desire car 3
+  steps:
+    - intent: no_desire_car
+    - action: action_request
+    - intent: inform_fuel_type
+    - action: action_request
+    - intent: affirm
+    - action: action_request
+- story: no desire car 4
+  steps:
+    - intent: no_desire_car
+    - action: action_request
+    - intent: inform_fuel_type
+    - action: action_request
+    - intent: inform_series_level
+    - action: action_request
+    - intent: affirm
+    - action: action_request
+- story: no desire car 5
+  steps:
+    - intent: no_desire_car
+    - action: action_request
+    - intent: inform_fuel_type
+    - action: action_request
+    - intent: inform_series_level
+    - action: action_request
+    - intent: inform_price
+    - action: action_request
+    - intent: affirm
+    - action: action_request
+- story: no desire car 6
+  steps:
+    - intent: no_desire_car
+    - action: action_request
+    - intent: inform_fuel_type
+    - action: action_request
+    - intent: inform_series_level
+    - action: action_request
+    - intent: inform_price
+    - action: action_request
+    - intent: inform_space
+    - action: action_request
+    - intent: affirm
+    - action: action_request
+#- story: one desire car + affirm
+#  steps:
+#  - intent: one_desire_car
+#  - action: one_desire_car_form
+#  - active_loop: one_desire_car_form
+#  - intent: stop
+#  - action: utter_ask_continue
+#  - intent: affirm
+#  - action: one_desire_car_form
+#  - active_loop: null
+#  - action: action_recommend_car_model
+
+#- story: one desire car + deny
+#  steps:
+#  - intent: one_desire_car
+#  - action: one_desire_car_form
+#  - active_loop: one_desire_car_form
+#  - intent: stop
+#  - action: utter_ask_continue
+#  - intent: deny
+#  - action: action_deactivate_loop
+#  - active_loop: null
+#  - action: utter_goodbye
+
+#- story: no desire car + affirm
+#  steps:
+#  - intent: no_desire_car
+#  - action: no_desire_car_form
+#  - active_loop: no_desire_car_form
+#  - intent: stop
+#  - action: utter_ask_continue
+#  - intent: affirm
+#  - action: no_desire_car_form
+#  - active_loop: null
+#  - action: action_recommend_car_model
+#
+#- story: no desire car + deny
+#  steps:
+#  - intent: no_desire_car
+#  - action: no_desire_car_form
+#  - active_loop: no_desire_car_form
+#  - intent: stop
+#  - action: utter_ask_continue
+#  - intent: deny
+#  - action: action_deactivate_loop
+#  - active_loop: null
+#  - action: utter_goodbye
+#
+#- story: multi desire car + affirm
+#  steps:
+#  - intent: multi_desire_car
+#  - action: multi_desire_car_form
+#  - active_loop: multi_desire_car_form
+#  - intent: stop
+#  - action: utter_ask_continue
+#  - intent: affirm
+#  - action: multi_desire_car_form
+#  - active_loop: null
+#  - action: action_recommend_car_model
+#
+#- story: multi desire car + deny
+#  steps:
+#  - intent: multi_desire_car
+#  - action: multi_desire_car_form
+#  - active_loop: multi_desire_car_form
+#  - intent: stop
+#  - action: utter_ask_continue
+#  - intent: deny
+#  - action: action_deactivate_loop
+#  - active_loop: null
+#  - action: utter_goodbye
+#- story: multi desire car
+#  steps:
+#  - intent: multi_desire_car
+#  - action: action_multi_desire_car
+#  - action: utter_ask_usage
+#  - intent: inform
+#  - action: action_recomm_from_multi_cars
+
+#- story: car form + continue
+#  steps:
+#  - intent: greet
+#  - action: utter_welcome
+#  - intent: no_desire_car
+#  - action: car_form
+#  - active_loop: car_form
+#  - intent: stop
+#  - action: utter_ask_continue
+#  - intent: affirm
+#  - action: car_form
+#  - active_loop: null
+#  - action: utter_slots_values
+#  - action: action_recommend_car
+#
+#- story: car form + stop
+#  steps:
+#  - intent: greet
+#  - action: utter_welcome
+#  - intent: no_desire_car
+#  - action: car_form
+#  - active_loop: car_form
+#  - intent: stop
+#  - action: utter_ask_continue
+#  - intent: deny
+#  - action: action_deactivate_loop
+#  - active_loop: null
+
+
+
+
+
+

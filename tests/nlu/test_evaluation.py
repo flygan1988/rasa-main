@@ -402,7 +402,7 @@ async def test_eval_data(tmp_path: Path, project: Text, trained_rasa_model: Text
         config_path,
         training_data_paths=[
             "data/examples/rasa/demo-rasa.yml",
-            "data/examples/rasa/demo-rasa-responses.yml",
+            "data/examples/rasa/demo-rasa-chitchat.yml",
         ],
     )
 
@@ -516,7 +516,7 @@ async def test_run_cv_evaluation_with_response_selector():
         "data/test.csv/demo-rasa-more-ents-and-multiplied.yml"
     )
     training_data_responses_obj = rasa.shared.nlu.training_data.loading.load_data(
-        "data/examples/rasa/demo-rasa-responses.yml"
+        "data/examples/rasa/demo-rasa-chitchat.yml"
     )
     training_data_obj = training_data_obj.merge(training_data_responses_obj)
 

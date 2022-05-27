@@ -23,7 +23,7 @@ def test_data_split_nlu(run_in_simple_project: Callable[..., RunResult]):
         "  - text: the weather is great!\n"
     )
 
-    with open("data/responses.yml", "w") as f:
+    with open("data/chitchat.yml", "w") as f:
         f.write(responses_yml)
 
     run_in_simple_project(

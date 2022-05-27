@@ -1,22 +1,20 @@
 from typing import Text, Dict, List, Any
 import sys
-sys.path.append("..")
+sys.path.append("../")
 from rasa_sdk import Action
 from rasa_sdk import utils
 from rasa_sdk.events import SlotSet
-from knowledgebase.utils import (
-    SLOT_OBJECT_TYPE,
-    SLOT_LAST_OBJECT_TYPE,
-    SLOT_ATTRIBUTE_LIST,
-    SLOT_LAST_MODEL,
-    SLOT_LISTED_MODELS,
-    SLOT_MODEL_NAME,
-    reset_attribute_slots,
-    SLOT_MENTION,
-    SLOT_LAST_OBJECT,
-    SLOT_LISTED_OBJECTS,
-    get_object,
-    get_attribute_slots,
+
+from utils.constants import (
+MYSQL_PASSWORD,
+MYSQL_HOST,
+MYSQL_DBNAME,
+MYSQL_USER,
+SLOT_MENTION,
+SLOT_MODEL_NAME,
+SLOT_ATTRIBUTE_LIST,
+SLOT_OBJECT_TYPE,
+SLOT_LAST_OBJECT_TYPE
 )
 from knowledgebase.car_knowledgebase import CarKnowledgeBase
 from rasa_sdk.executor import CollectingDispatcher
@@ -38,9 +36,9 @@ class ActionAskCarAttribute(Action):
     def __init__(
         self, use_last_object_mention: bool = True
     ) -> None:
-        self.knowledge_base = CarKnowledgeBase(db='che300', user='root', password='password')
+        self.knowledge_base = CarKnowledgeBase(db=MYSQL_DBNAME, user=MYSQL_USER, password=MYSQL_PASSWORD, host=MYSQL_HOST)
         self.knowledge_base.set_representation_function_of_object(
-            "car", lambda obj: obj["model_name"] + " (" + obj["series_level"] + ")"
+            "car", lambda obj: obj["model_name"] + " (" + obj["level_name"] + ")"
         )
         self.use_last_object_mention = use_last_object_mention
 
@@ -70,40 +68,49 @@ class ActionAskCarAttribute(Action):
 
         """
         logger.info("Enter action: %s", self.name())
-        listed_models = tracker.get_slot(SLOT_LISTED_MODELS)
-        print(tracker.get_slot("car"))
-        if listed_models is None:
-            car_list = tracker.get_slot("car")
-            if car_list is not None and len(car_list) != 0:
-                series_name = car_list[0]
-                listed_models = await utils.call_potential_coroutine(self.knowledge_base.get_objects_by_series_name(series_name))
-                tracker.add_slots([SlotSet(SLOT_LISTED_MODELS, listed_models)])
+        curr_model_id = tracker.get_slot('curr_model')
+        mention = tracker.get_slot(SLOT_MENTION)
+        logger.info("mention = %s", mention)
+        if curr_model_id is None:
+            logger.info("model_id is None")
+            dispatcher.utter_message(text="抱歉，没有获取到车型ID")
+            return [SlotSet(SLOT_MODEL_NAME, None), SlotSet(SLOT_MENTION, None)]
 
-        model_name = tracker.get_slot("model_name")
-        print(model_name)
-
-        object = get_object(tracker, self.knowledge_base.ordinal_mention_mapping, "model", self.use_last_object_mention)
-        logger.info("object = %s", object)
-        if object is None:
+        current_model = await utils.call_potential_coroutine(self.knowledge_base.get_object(curr_model_id))
+        current_model = current_model[0]
+        logger.info("current model is: %s", current_model['model_name'])
+        if current_model is None:
             dispatcher.utter_message(text="抱歉，没有获取到具体车型")
-            return [SlotSet(SLOT_LISTED_MODELS, None), SlotSet(SLOT_MODEL_NAME, None)]
+            return [SlotSet(SLOT_MODEL_NAME, None), SlotSet(SLOT_MENTION, None)]
         attributes = tracker.get_slot(SLOT_ATTRIBUTE_LIST)
         logger.info("attributes = %s", attributes)
         if attributes is None or len(attributes) == 0:
             dispatcher.utter_message(text="抱歉，没有获取到车的属性名")
-            return [SlotSet(SLOT_LISTED_MODELS, None)]
-        if type(object) != list:
-            object = [object]
+            return [SlotSet(SLOT_MODEL_NAME, None), SlotSet(SLOT_MENTION, None), SlotSet('car', None)]
 
-        for obj in object:
-            for attr in attributes:
-                message = f"{obj['model_name']}的{ATTRIBUTE_MAP[attr]}：{obj[attr]}"
-                dispatcher.utter_message(text=message)
-        slot_list = []
-        if len(object) == 1:
-            slot_list.append(SlotSet(SLOT_LAST_MODEL, object[0]))
+        for attr in attributes:
+            if attr == 'price' and current_model[attr] is None:
+                dispatcher.utter_message(text=f"该车目前的指导价是：{current_model['model_price']}万元")
+                continue
+            if attr == 'model_intr' and current_model[attr] is None:
+                curr_series = await utils.call_potential_coroutine(self.knowledge_base.get_series_intr(current_model['series_id']))
+                curr_series = curr_series[0]
+                logger.info("current series = %s", curr_series)
+                dispatcher.utter_message(text=curr_series['series_intr'])
+                continue
+            if current_model[attr] is None or len(current_model[attr]) == 0:
+                dispatcher.utter_message(text="知识点在进一步完善中，敬请期待！")
+                continue
+            dispatcher.utter_message(text=current_model[attr])
+        buttons = []
+        b1 = {"title":"是", "payload":"/affirm"}
+        b2 = {"title":"否", "payload":"/deny"}
+        buttons.append(b1)
+        buttons.append(b2)
+        dispatcher.utter_message(text="还有什么要了解的吗？", buttons=buttons)
         return [SlotSet(SLOT_LAST_OBJECT_TYPE, "car"),
                 SlotSet(SLOT_MENTION, None),
                 SlotSet(SLOT_OBJECT_TYPE, "car"),
                 SlotSet(SLOT_MODEL_NAME, None),
-                SlotSet("car", None)] + slot_list
+                SlotSet(SLOT_ATTRIBUTE_LIST, None),
+                SlotSet('car', None)]

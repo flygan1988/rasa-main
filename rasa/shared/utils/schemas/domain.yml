@@ -37,7 +37,7 @@ mapping:
     - type: "str"
       required: True
   responses:
-    # see utils/schemas/responses.yml
+    # see utils/schemas/chitchat.yml
     include: responses
 
   slots:

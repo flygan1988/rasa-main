@@ -1,0 +1,103 @@
+version: "3.0"
+responses:
+  utter_ask_engine_power_kw:
+    - text: "请问你对动力有什么要求？"
+    - text: "动力方面怎么考虑的？"
+
+  utter_ask_gear_type:
+    - text: "请问你喜欢手动挡还是自动挡？"
+    - text: "请输入变速器要求：\n手动挡|自动挡"
+
+  utter_ask_price:
+    - text: "请问您购车预算是多少？"
+    - text: "请问您准备买多少价位的车子？"
+    - text: "您准备了多少钱买车呢？"
+
+  utter_ask_is_green:
+    - text: "请问您看新能源车吗？\n请输入：是|否"
+    - text: "是否看新能源车子？\n请输入：是|否"
+
+  utter_ask_series_level:
+    - text: "请输入意向车型：\nSUV|MPV|轿车"
+
+  utter_ask_space:
+    - text: "您对空间有要求吗？\n请输入：小型|紧凑型|中型|中大型|无"
+
+  utter_ask_model_level:
+    - text: "请问对配置有什么要求吗？"
+    - text: "想要什么配置的呢？"
+
+  utter_ask_car_usage:
+    - text: "请问您的购车用途是什么？"
+    - text: "平时在哪方面用车比较多？"
+
+  utter_ask_continue:
+    - text: "您还想继续吗？"
+
+  utter_wrong_series_level:
+    - text: "车型输入错误，请输入：SUV|MPV|轿车"
+
+  utter_wrong_space:
+    - text: "空间参数输入错误，请输入：小型|紧凑型|中型|中大型|无"
+
+  utter_wrong_gear_type:
+    - text: "变速器类型输入错误，请输入如：手动|自动|随便"
+
+  utter_wrong_price:
+    - text: "购车预算请输入数字，如：120000"
+
+  utter_wrong_is_green:
+    - text: "输入错误，请输入：是|否"
+
+#  utter_get_model:
+#    - text: "好的，确认你要看的车系是：{car}， 车型是：{model_name}，车型偏好是：{favor}"
+
+  utter_goodbye:
+  - text: "再见"
+
+  utter_iamabot:
+  - text: "我是机器人，RASA版本的"
+
+  utter_chitchat/ask_name:
+  - image: "https://i.imgur.com/zTvA58i.jpeg"
+    text: 你好，我的名字是小明。
+  - text: 我是FQA机器人
+
+  utter_chitchat/ask_weather:
+  - text: 今天天气晴朗，万里无云。
+    image: "https://i.imgur.com/vwv7aHN.png"
+  - text: 我不知道这一周的天气，不过今天看着天气晴朗
+
+  utter_faq/ask_why_loan:
+  - text: 您可以将节省下来的钱用于理财，银行固定存款或是银行理财产品都行，现在银行整存整取的存款利率最高5.6%（银行不同，存款利率也不同）；理财产品的利率也在4.5%左右；
+  - text: 通货膨胀：简单理解就是钱在贬值，现在的10000元到明年可能就成9000元了，到后面可能就成8000元，钱越往后就会越不值钱了，为什么不把这种风险让银行去承担，非要自己承担这种损失呢？中国近10年的通胀率是10%左右；
+
+  utter_faq/ask_loan_credit:
+  - text: 累计信用度，您的信用度越好银行等合法借款平台就会给你借的越多；（例：我今天找您借了1万元急用，给您说好两个月后还给您，两个月后我还给你了，下次我再问你借5万你是不是还会借给我；如果我从来没有找你借过钱，突然找您借个10万8万的您是不是还得考虑借不借给我啊）
+
+  utter_faq/ask_why_credit:
+  - text: 方便借款，助您获得更公平的信贷机会；节省时间，不用再花那么多时间去调查；（实际案例故事表述征信的重要性）
+
+  utter_welcome:
+  - text: "您好，我是上汽财务数字人，您可以向我咨询以下问题：
+           <br>1.简单的闲聊
+           <br>2.车型参数问答，如：朗逸的价格多少
+           <br>3.单一车系下的车型推荐，如：看看朗逸
+           <br>4.车型推荐，如：推荐几款车
+           <br>5.汽车领域相关常识知识问答，如：为什么要贷款买车"
+
+  utter_sorry:
+    - text: "抱歉，您的问题超出了我的理解范围，不能作答。"
+
+  utter_ask_more:
+    - text: "请继续输入你的问题"
+
+  utter_dealer_detail:
+    - image: "https://img3.xgo-img.com.cn/dealer_album/40_800x600/5e096356cda0b.jpg"
+      text: "这里是经销商信息，如有需要请联系186xxxxxxxx"
+
+  utter_happy_help:
+    - text: "很高兴能帮到你"
+
+  utter_sorry_help:
+    - text: "抱歉，只能帮你到这了"

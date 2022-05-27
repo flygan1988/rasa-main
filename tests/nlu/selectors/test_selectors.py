@@ -58,7 +58,7 @@ def response_selector_training_data() -> TrainingData:
         "data/examples/rasa/demo-rasa.yml"
     )
     training_data_responses = rasa.shared.nlu.training_data.loading.load_data(
-        "data/examples/rasa/demo-rasa-responses.yml"
+        "data/examples/rasa/demo-rasa-chitchat.yml"
     )
     training_data = training_data.merge(training_data_responses)
 

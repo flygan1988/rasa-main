@@ -5,17 +5,20 @@ intents:
   - goodbye
   - affirm
   - deny
-  - stop
+#  - stop
   - no_desire_car
   - bot_challenge
-  - chitchat
+#  - chitchat
   - faq
-  - search_car
-  - ask_car_detail
   - ask_car_attribute
   - one_desire_car
-  - inform
-  - multi_desire_car
+  - inform_series
+  - inform_model
+#  - multi_desire_car
+  - inform_fuel_type
+  - inform_series_level
+  - inform_price
+  - inform_space
 
 entities:
   - object_type
@@ -23,27 +26,31 @@ entities:
   - car
   - color
   - attribute
-  - engine_power_kw
   - gear_type
   - price
   - space
   - model_name
+  - favor
   - series_level
   - seat_number
-  - is_green
   - drive_name
-  - model_level
+  - fuel_type
+  - year
+  - liter
+  - curr_model
+  - max_miles
 
 slots:
   object_type:
     type: text
     influence_conversation: false
     mappings:
+    - type: custom
     - type: from_entity
       entity: object_type
   mention:
     type: text
-    influence_conversation: false
+    influence_conversation: true
     mappings:
     - type: from_entity
       entity: mention
@@ -51,6 +58,7 @@ slots:
     type: list
     influence_conversation: false
     mappings:
+    - type: custom
     - type: from_entity
       entity: car
   color:
@@ -80,6 +88,19 @@ slots:
     influence_conversation: false
     mappings:
       - type: custom
+  reco_his:
+    type: any
+    influence_conversation: false
+    mappings:
+      - type: custom
+  curr_model:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: custom
+      - type: from_entity
+        entity: curr_model
+
   knowledge_base_listed_objects:
     type: list
     influence_conversation: false
@@ -94,51 +115,35 @@ slots:
     type: text
     influence_conversation: false
     mappings:
+      - type: custom
       - type: from_entity
         entity: series_level
-      - type: from_text
-        conditions:
-          - active_loop: no_desire_car_form
-            requested_slot: series_level
   price:
-    type: text
-    influence_conversation: false
-    mappings:
-      - type: from_entity
-        entity: price
-      - type: from_text
-        conditions:
-          - active_loop: one_desire_car_form
-            requested_slot: price
-          - active_loop: no_desire_car_form
-            requested_slot: price
-          - active_loop: multi_desire_car_form
-            requested_slot: price
-  model_name:
-    type: text
+    type: list
     influence_conversation: false
     mappings:
       - type: custom
       - type: from_entity
-        entity: model_name
+        entity: price
+  model_name:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: custom
       - type: from_entity
-        entity: mention
-      - type: from_text
-        conditions:
-          - active_loop: model_form
-            requested_slot: model_name
+        entity: model_name
+  favor:
+    type: list
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: favor
   gear_type:
     type: text
     influence_conversation: false
     mappings:
       - type: from_entity
         entity: gear_type
-      - type: from_text
-        conditions:
-          - active_loop: one_desire_car_form
-            requested_slot: gear_type
-          - active_loop: multi_desire_car_form
-            requested_slot: gear_type
   seat_number:
     type: text
     influence_conversation: false
@@ -157,183 +162,39 @@ slots:
     mappings:
       - type: from_entity
         entity: space
-      - type: from_text
-        conditions:
-          - active_loop: no_desire_car_form
-            requested_slot: space
-          - active_loop: multi_desire_car_form
-            requested_slot: space
-  engine_power_kw:
+  fuel_type:
     type: text
     influence_conversation: false
     mappings:
       - type: from_entity
-        entity: engine_power_kw
-      - type: from_text
-        conditions:
-          - active_loop: one_desire_car_form
-            requested_slot: engine_power_kw
-          - active_loop: no_desire_car_form
-            requested_slot: engine_power_kw
-          - active_loop: multi_desire_car_form
-            requested_slot: engine_power_kw
-  is_green:
+        entity: fuel_type
+  year:
     type: text
     influence_conversation: false
     mappings:
       - type: from_entity
-        entity: is_green
-      - type: from_text
-        conditions:
-          - active_loop: no_desire_car_form
-            requested_slot: is_green
-          - active_loop: one_desire_car_form
-            requested_slot: is_green
-  model_level:
+        entity: year
+  liter:
     type: text
     influence_conversation: false
     mappings:
       - type: from_entity
-        entity: model_level
-      - type: from_text
-        conditions:
-          - active_loop: one_desire_car_form
-            requested_slot: model_level
-  car_usage:
+        entity: liter
+  max_miles:
     type: text
     influence_conversation: false
     mappings:
-      - type: from_text
-        conditions:
-          - active_loop: multi_desire_car_form
-            requested_slot: car_usage
-
+      - type: from_entity
+        entity: max_miles
 actions:
-- validate_model_form
-- validate_one_desire_car_form
-- validate_no_desire_car_form
-- validate_multi_desire_car_form
-- action_ask_model_name
 - action_recommend_car_model
 - action_car_attribute
-
-forms:
-  model_form:
-    ignored_intents:
-      - chitchat
-      - faq
-    required_slots:
-      - model_name
-  one_desire_car_form:
-    ignored_intents:
-      - chitchat
-      - faq
-    required_slots:
-      - model_level
-      - is_green
-      - price
-      - engine_power_kw
-      - gear_type
-  no_desire_car_form:
-    ignored_intents:
-      - chitchat
-      - faq
-    required_slots:
-      - is_green
-      - series_level
-      - price
-      - engine_power_kw
-      - space
-  multi_desire_car_form:
-    ignored_intents:
-      - chitchat
-      - faq
-    required_slots:
-      - engine_power_kw
-      - price
-      - space
-      - gear_type
-
-
-responses:
-  utter_ask_engine_power_kw:
-    - text: "请问你对动力有什么要求？"
-    - text: "动力方面怎么考虑的？"
-
-  utter_ask_gear_type:
-    - text: "请问你喜欢手动挡还是自动挡？"
-    - text: "请输入变速器要求：\n手动挡|自动挡"
-
-  utter_ask_price:
-    - text: "请问您购车预算是多少？"
-    - text: "请问您准备买多少价位的车子？"
-    - text: "您准备了多少钱买车呢？"
-
-  utter_ask_is_green:
-    - text: "请问您看新能源车吗？\n请输入：是|否"
-    - text: "是否看新能源车子？\n请输入：是|否"
-
-  utter_ask_series_level:
-    - text: "请输入意向车型：\nSUV|MPV|轿车"
-
-  utter_ask_space:
-    - text: "您对空间有要求吗？\n请输入：小型|紧凑型|中型|中大型|无"
-
-  utter_ask_model_level:
-    - text: "请问对配置有什么要求吗？"
-    - text: "想要什么配置的呢？"
-
-  utter_ask_car_usage:
-    - text: "请问您的购车用途是什么？"
-    - text: "平时在哪方面用车比较多？"
-
-  utter_ask_continue:
-    - text: "您还想继续吗？"
-
-  utter_wrong_series_level:
-    - text: "车型输入错误，请输入：SUV|MPV|轿车"
-
-  utter_wrong_space:
-    - text: "空间参数输入错误，请输入：小型|紧凑型|中型|中大型|无"
-
-  utter_wrong_gear_type:
-    - text: "变速器类型输入错误，请输入如：手动|自动|随便"
-
-  utter_wrong_price:
-    - text: "购车预算请输入数字，如：120000"
-
-  utter_wrong_is_green:
-    - text: "输入错误，请输入：是|否"
-
-  utter_goodbye:
-  - text: "再见"
-
-  utter_iamabot:
-  - text: "我是机器人，RASA版本的"
-
-  utter_chitchat/ask_name:
-  - image: "https://i.imgur.com/zTvA58i.jpeg"
-    text: 你好，我的名字是小明。
-  - text: 我是FQA机器人
-
-  utter_chitchat/ask_weather:
-  - text: 今天天气晴朗，万里无云。
-    image: "https://i.imgur.com/vwv7aHN.png"
-  - text: 我不知道这一周的天气，不过今天看着天气晴朗
-
-  utter_faq/ask_why_loan:
-  - text: 您可以将节省下来的钱用于理财，银行固定存款或是银行理财产品都行，现在银行整存整取的存款利率最高5.6%（银行不同，存款利率也不同）；理财产品的利率也在4.5%左右；
-  - text: 通货膨胀：简单理解就是钱在贬值，现在的10000元到明年可能就成9000元了，到后面可能就成8000元，钱越往后就会越不值钱了，为什么不把这种风险让银行去承担，非要自己承担这种损失呢？中国近10年的通胀率是10%左右；
-
-  utter_faq/ask_loan_credit:
-  - text: 累计信用度，您的信用度越好银行等合法借款平台就会给你借的越多；（例：我今天找您借了1万元急用，给您说好两个月后还给您，两个月后我还给你了，下次我再问你借5万你是不是还会借给我；如果我从来没有找你借过钱，突然找您借个10万8万的您是不是还得考虑借不借给我啊）
-
-  utter_faq/ask_why_credit:
-  - text: 方便借款，助您获得更公平的信贷机会；节省时间，不用再花那么多时间去调查；（实际案例故事表述征信的重要性）
-
-  utter_welcome:
-  - text: "您好，我是选车助手小A，请问您想看什么车？"
+- action_search
+- action_request
+- action_suggest_car
+- action_handle_whether_go_on
+- action_fallback
 
 session_config:
   session_expiration_time: 10  # value in minutes
-  carry_over_slots_to_new_session: true
+  carry_over_slots_to_new_session: false

@@ -47,7 +47,7 @@ mapping:
           type: "str"
         examples: *examples_anchor
   responses:
-    # see rasa/shared/nlu/training_data/schemas/responses.yml
+    # see rasa/shared/nlu/training_data/schemas/chitchat.yml
     include: responses
   regex;(.*):
     type: "any"

@@ -124,7 +124,7 @@ def test_get_core_nlu_files(project):
             "rasa",
             [
                 "data/examples/rasa/demo-rasa-multi-intent.yml",
-                "data/examples/rasa/demo-rasa-responses.yml",
+                "data/examples/rasa/demo-rasa-chitchat.yml",
                 "data/examples/rasa/demo-rasa.json",
                 "data/examples/rasa/demo-rasa.yml",
             ],

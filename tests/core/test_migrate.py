@@ -966,7 +966,7 @@ def example_migrate_folder_fails_because_multiple_slots_sections(
           utter_greet:
           - text: "Hi there!"
         """,
-        "responses.yml",
+        "chitchat.yml",
     )
 
     return domain_dir, "Domain files with multiple 'slots' sections were " "provided."

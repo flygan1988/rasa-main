@@ -1,0 +1,28 @@
+version: "3.0"
+nlu:
+- lookup: gear_type
+  examples: |
+    - 手动
+    - 自动
+- lookup: series_level
+  examples: |
+    - 轿车
+    - SUV
+    - MPV
+    - 跑车
+- lookup: space
+  examples: |
+    - 微型
+    - 小型
+    - 紧凑型
+    - 中型
+    - 中大型
+- lookup: fuel_type
+  examples: |
+    - 新能源
+    - 汽油
+    - 燃油
+    - 纯电
+    - 电动
+    - 油电混动
+    - 电车

@@ -230,11 +230,11 @@ def test_template_key_to_intent_response_key():
     [
         [
             "data/examples/rasa/demo-rasa.json",
-            "data/examples/rasa/demo-rasa-responses.yml",
+            "data/examples/rasa/demo-rasa-chitchat.yml",
         ],
         [
             "data/examples/rasa/demo-rasa.yml",
-            "data/examples/rasa/demo-rasa-responses.yml",
+            "data/examples/rasa/demo-rasa-chitchat.yml",
         ],
     ],
 )
@@ -279,11 +279,11 @@ def test_demo_data(files: List[Text]):
     [
         [
             "data/examples/rasa/demo-rasa.json",
-            "data/examples/rasa/demo-rasa-responses.yml",
+            "data/examples/rasa/demo-rasa-chitchat.yml",
         ],
         [
             "data/examples/rasa/demo-rasa.yml",
-            "data/examples/rasa/demo-rasa-responses.yml",
+            "data/examples/rasa/demo-rasa-chitchat.yml",
         ],
     ],
 )
@@ -312,7 +312,7 @@ def test_demo_data_filter_out_retrieval_intents(files):
     [
         [
             "data/examples/rasa/demo-rasa.yml",
-            "data/examples/rasa/demo-rasa-responses.yml",
+            "data/examples/rasa/demo-rasa-chitchat.yml",
         ]
     ],
 )
@@ -455,7 +455,7 @@ def test_validate_number_of_examples_per_intent():
     [
         [
             "data/examples/rasa/demo-rasa.yml",
-            "data/examples/rasa/demo-rasa-responses.yml",
+            "data/examples/rasa/demo-rasa-chitchat.yml",
         ]
     ],
 )
@@ -855,7 +855,7 @@ def test_fingerprint_is_same_when_loading_data_again():
 
     files = [
         "data/examples/rasa/demo-rasa.yml",
-        "data/examples/rasa/demo-rasa-responses.yml",
+        "data/examples/rasa/demo-rasa-chitchat.yml",
     ]
     td1 = training_data_from_paths(files, language="en")
     td2 = training_data_from_paths(files, language="en")
@@ -912,7 +912,7 @@ def test_training_data_fingerprint_incorporates_tokens(
 
     files = [
         "data/examples/rasa/demo-rasa.yml",
-        "data/examples/rasa/demo-rasa-responses.yml",
+        "data/examples/rasa/demo-rasa-chitchat.yml",
     ]
     training_data = training_data_from_paths(files, language="en")
     fp1 = training_data.fingerprint()
@@ -926,7 +926,7 @@ def test_training_data_fingerprint_incorporates_features():
 
     files = [
         "data/examples/rasa/demo-rasa.yml",
-        "data/examples/rasa/demo-rasa-responses.yml",
+        "data/examples/rasa/demo-rasa-chitchat.yml",
     ]
     training_data = training_data_from_paths(files, language="en")
     fp1 = training_data.fingerprint()
